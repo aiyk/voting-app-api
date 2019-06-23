@@ -1,54 +1,27 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
-const passport = require('passport');
-const path = require('path');
-
-require('dotenv').config();
-
-const users = require('./routes/api/users');
-const profile = require('./routes/api/profiles');
 
 const app = express();
 
-//body parser middleware
-app.use(bodyParser.urlencoded({extended: false}));
-app.use(bodyParser.json());
-app.use(function(req, res, next) {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-    next();
-});
+//Database
+mongoose.connect('mongodb://127.0.0.1:27017/voting-app', {useNewUrlParser: true})
+    .then( () => {console.log('Connected to database...')})
+    .catch(err=> console.error(err));
 
-//DB config 
-const db = require('./config/keys').mongoURI;
 
-//Connect to mongo db
-mongoose
-    .connect(db)
-    .then(() => console.log('MongoDB Connected'))
-    .catch(err => console.log(err));
+// Middlewares
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.static('public'));
 
-//passport middleware
-app.use(passport.initialize());
+//Controllers
+// const UserControl = require('./src/controllers/UserControl');
 
-//passport config
-require('./config/passport')(passport);
+// Routes
+const UserRoute = require('./src/routes/userRoute');
 
-// use routes
-app.use('/api/users', users);
-app.use('/api/profile', profile);
+app.use(UserRoute);
 
-//serve static assets if in production
-if(process.env.NODE_ENV === 'production'){
-    //set static folder
-    app.use(express.static('client/build'));
-
-    app.get('*', (req, res) => {
-        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
-    });
-}
-
-const port = process.env.PORT || 5000;
-
-app.listen(port, () => console.log(`Server running on port ${port}`));
+//start server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.info(`Server starteed on port ${PORT}...`));
