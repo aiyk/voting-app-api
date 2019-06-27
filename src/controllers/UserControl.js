@@ -4,38 +4,7 @@ const jwt = require('jsonwebtoken');
 const keys = require('../../config/keys');
 
 module.exports = {
-    create: (req, res) => {
-
-        UserModel.findOne({username: req.body.username})
-            .then(user => {
-                if(user) {
-                    return res.status(400).json({username: 'Username already exists'});
-                } else {
-                    const newUser = new UserModel({
-                        username: req.body.username,
-                        password: req.body.password,
-                        email: req.body.email,
-                        access: req.body.access, // [admin, official, voter]
-                    });
-
-                    bcrypt.genSalt(10, (err, salt) => {
-                        bcrypt.hash(newUser.password, salt, (err, hash) => {
-                            if(err) throw err;
-                            newUser.password = hash;
-                            newUser.save()
-                                .then(user => res.json({
-                                    _id: user._id,
-                                    username: user.username,
-                                    email: user.email,
-                                    access: user.access,
-                                    date: user.date
-                                }))
-                                .catch(err => console.log(err));
-                        });
-                    })
-                }
-            });
-    },
+    
     login: (req, res) => {
         const username = req.body.username;
         const password = req.body.password;
@@ -81,7 +50,7 @@ module.exports = {
             .then(user => {
                 if(!user) res.json({success: false, result: 'user does not exist'});
 
-                res.jason(user);
+                res.json(user);
             })
             .catch(err => {
                 res.json({success: false, result: err})

@@ -2,16 +2,23 @@ const CountryModel = require('../models/countryModel');
 
 module.exports = {
     create: (req, res) => {
-        let country = new CountryModel({
-            countryname: req.body.countryname
-        });
+        CountryModel.findOne({countryname: req.body.countryname})
+            .then(country => { 
+                if(country){
+                    return res.json({ success: false, result: `${req.body.countryname} already exists`});
+                }
 
-        country.save()
-            .then( result => {
-                res.json({ success: true, result: result});
-            })
-            .catch(err => {
-                res.json({success: false, result: err});
+                const newCountry = new CountryModel({
+                    countryname: req.body.countryname
+                });
+
+                newCountry.save()
+                    .then( result => {
+                        res.json({ success: true, result: result});
+                    })
+                    .catch(err => {
+                        res.json({success: false, result: err});
+                    })
             })
     },
     update: (req, res) => {

@@ -1,21 +1,17 @@
-const VoterModel = require('../models/voterModel');
+const OfficialModel = require('../models/officialModel');
 
 module.exports = {
     create: (req, res) => {
-        let voter = new VoterModel({
+        let official = new OfficialModel({
             firstname: req.body.firstname,
             lastname: req.body.lastname,
             othernames: req.body.othernames,
             email: req.body.email,
-            state: req.body.state,
-            lga: req.body.lga,
-            gender: req.body.gender,
-            occupation: req.body.occupation,
-            address: req.body.address,
-            dateOfBirth: req.body.dateOfBirth
+            phone: req.body.phone,
+            poolinUnit_id: req.body.poolinUnit_id
         });
 
-        voter.save()
+        official.save()
             .then( result => {
                 res.json({ success: true, result: result});
             })
@@ -24,18 +20,18 @@ module.exports = {
             })
     },
     update: (req, res) => {
-        VoterModel.update({_id: req.body._id}, req.body)
-            .then(voter => {
-                if(!voter) res.json({success: false, result: 'voter does not exist'});
+        OfficialModel.update({_id: req.body._id}, req.body)
+            .then(official => {
+                if(!official) res.json({success: false, result: 'official does not exist'});
 
-                res.jason(voter);
+                res.jason(official);
             })
             .catch(err => {
                 res.json({success: false, result: err})
             })
     },
     retrieve: (req, res) => {
-        VoterModel.find()
+        OfficialModel.find()
             .then(result => {
                 if(!result) res.json({success: false, result: 'no results found'});
 
@@ -44,9 +40,9 @@ module.exports = {
             .catch(err => res.json({success: false, result: err}));
     },
     delete: (req, res) => {
-        VoterModel.remove({_id: req.body._id})
+        OfficialModel.remove({_id: req.body._id})
             .then( result => {
-                if(!result) res.json({success: false, result: 'voter does not exist'});
+                if(!result) res.json({success: false, result: 'official does not exist'});
                 res.json({success: true, result: result});
             })
             .catch(err => res.json({success: false, result: err}));

@@ -15,7 +15,7 @@ mongoose.connect(db, {useNewUrlParser: true})
 app.use(passport.initialize());
 
 // passport config
-require('./config/passport')(passport);
+require('./config/passport')(passport); 
 
 
 // Middlewares
@@ -28,12 +28,14 @@ app.use(express.static('public'));
 
 // Routes
 const UserRoute = require('./src/routes/userRoute');
+const OfficialRoute = require('./src/routes/officialRoute');
 const VoterRoute = require('./src/routes/voterRoute');
 const CountryRoute = require('./src/routes/countryRoute');
 const StateRoute = require('./src/routes/stateRoute');
 const LgaRoute = require('./src/routes/lgaRoute');
 
 app.use(UserRoute);
+app.use(OfficialRoute);
 app.use(VoterRoute);
 app.use(CountryRoute);
 app.use(StateRoute);
