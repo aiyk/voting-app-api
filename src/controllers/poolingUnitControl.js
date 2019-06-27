@@ -2,22 +2,26 @@ const PoolingUnitModel = require('../models/poolingUnitModel');
 
 module.exports = {
     create: (req, res) => {
-        let poolingUnit = new PoolingUnitModel({
-            unitname: req.body.unitname,
-            votes: req.body.votes,
-            lga_id: req.body.lga_id,
-            state_id: req.body.state_id,
-            country_id: req.body.country_id,
-            official_id: req.body.official_id
-        });
+        PoolingUnitModel.findOne({unitname: req.body.unitname})
+            .then(country => { 
+                if(country){
+                    return res.json({ success: false, result: `${req.body.unitname} already exists`});
+                }
+                let poolingUnit = new PoolingUnitModel({
+                    unitname: req.body.unitname,
+                    lga_id: req.body.lga_id,
+                    state_id: req.body.state_id,
+                    country_id: req.body.country_id
+                });
 
-        poolingUnit.save()
-            .then( result => {
-                res.json({ success: true, result: result});
-            })
-            .catch(err => {
-                res.json({success: false, result: err});
-            })
+                poolingUnit.save()
+                    .then( result => {
+                        res.json({ success: true, result: result});
+                    })
+                    .catch(err => {
+                        res.json({success: false, result: err});
+                    })
+        })  
     },
     update: (req, res) => {
         PoolingUnitModel.update({_id: req.body._id}, req.body)

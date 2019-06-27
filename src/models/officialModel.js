@@ -8,7 +8,7 @@ const officialSchema = new Schema({
     othernames: String,
     email: {type: String, required: true},
     phone: {type: String, required: true},
-    poolingUnit_id: {type: Schema.Types.ObjectId, required: true},
+    poolingUnit_id: {type: Schema.Types.ObjectId, ref: 'poolingUnits', required: true},
     date: { type: Date, default: Date.now}
 });
 

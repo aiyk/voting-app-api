@@ -47,7 +47,7 @@ module.exports = {
                                     othernames: req.body.othernames,
                                     email: req.body.email,
                                     phone: req.body.phone,
-                                    poolinUnit_id: req.body.poolinUnit_id
+                                    poolingUnit_id: req.body.poolingUnit_id
                                 });
                         
                                 newOfficial.save()

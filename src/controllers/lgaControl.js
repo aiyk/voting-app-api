@@ -2,19 +2,26 @@ const LgaModel = require('../models/lgaModel');
 
 module.exports = {
     create: (req, res) => {
-        let lga = new LgaModel({
-            lganame: req.body.lganame,
-            state_id: req.body.state_id,
-            country_id: req.body.country_id
-        });
+        LgaModel.findOne({lganame: req.body.lganame})
+            .then(lga => { 
+                if(lga){
+                    return res.json({ success: false, result: `${req.body.lganame} already exists`});
+                }
+                        
+                let newLga = new LgaModel({
+                    lganame: req.body.lganame,
+                    state_id: req.body.state_id,
+                    country_id: req.body.country_id
+                });
 
-        lga.save()
-            .then( result => {
-                res.json({ success: true, result: result});
-            })
-            .catch(err => {
-                res.json({success: false, result: err});
-            })
+                newLga.save()
+                    .then( result => {
+                        res.json({ success: true, result: result});
+                    })
+                    .catch(err => {
+                        res.json({success: false, result: err});
+                    })
+        })
     },
     update: (req, res) => {
         LgaModel.update({_id: req.body._id}, req.body)

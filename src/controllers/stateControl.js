@@ -2,18 +2,25 @@ const StateModel = require('../models/stateModel');
 
 module.exports = {
     create: (req, res) => {
-        let state = new StateModel({
-            statename: req.body.statename,
-            country_id: req.body.country_id
-        });
+        StateModel.findOne({statename: req.body.statename})
+            .then(state => { 
+                if(state){
+                    return res.json({ success: false, result: `${req.body.statename} already exists`});
+                }
 
-        state.save()
-            .then( result => {
-                res.json({ success: true, result: result});
-            })
-            .catch(err => {
-                res.json({success: false, result: err});
-            })
+                const newState = new StateModel({
+                    statename: req.body.statename,
+                    country_id: req.body.country_id
+                });
+
+                newState.save()
+                    .then( result => {
+                        res.json({ success: true, result: result});
+                    })
+                    .catch(err => {
+                        res.json({success: false, result: err});
+                    })
+        })
     },
     update: (req, res) => {
         StateModel.update({_id: req.body._id}, req.body)
