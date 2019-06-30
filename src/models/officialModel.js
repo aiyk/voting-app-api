@@ -9,7 +9,7 @@ const officialSchema = new Schema({
     email: {type: String, required: true},
     phone: {type: String, required: true},
     poolingUnit_id: {type: Schema.Types.ObjectId, ref: 'poolingUnits', required: true},
-    date: { type: Date, default: Date.now}
+    created: { type: Date, default: Date.now}
 });
 
 module.exports = Official = mongoose.model('officials', officialSchema);

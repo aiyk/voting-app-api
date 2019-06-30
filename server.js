@@ -34,6 +34,8 @@ const CountryRoute = require('./src/routes/countryRoute');
 const StateRoute = require('./src/routes/stateRoute');
 const LgaRoute = require('./src/routes/lgaRoute');
 const PoolingUnitRoute = require('./src/routes/poolingUnitRoute');
+const ElectionRoute = require('./src/routes/electionRoute');
+const PartyRoute = require('./src/routes/partyRoute');
 
 app.use(UserRoute);
 app.use(OfficialRoute);
@@ -42,6 +44,8 @@ app.use(CountryRoute);
 app.use(StateRoute);
 app.use(LgaRoute);
 app.use(PoolingUnitRoute);
+app.use(ElectionRoute);
+app.use(PartyRoute);
 
 //start server
 const PORT = process.env.PORT || 5000;

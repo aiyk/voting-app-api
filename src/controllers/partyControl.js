@@ -1,18 +1,19 @@
-const CountryModel = require('../models/countryModel');
+const PartyModel = require('../models/partyModel');
 
 module.exports = {
     create: (req, res) => {
-        CountryModel.findOne({countryname: req.body.countryname})
-            .then(country => { 
-                if(country){
-                    return res.json({ success: false, result: `${req.body.countryname} already exists`});
+        PartyModel.findOne({partyname: req.body.partyname})
+            .then(party => { 
+                if(party){
+                    return res.json({ success: false, result: `${req.body.partyname} already exists`});
                 }
 
-                const newCountry = new CountryModel({
-                    countryname: req.body.countryname
+                const newParty = new PartyModel({
+                    partyname: req.body.partyname,
+                    candidates: req.body.candidates
                 });
 
-                newCountry.save()
+                newParty.save()
                     .then( result => {
                         res.json({ success: true, result: result});
                     })
@@ -22,18 +23,18 @@ module.exports = {
             })
     },
     update: (req, res) => {
-        CountryModel.update({_id: req.body._id}, req.body)
-            .then(country => {
-                if(!country) res.json({success: false, result: 'country does not exist'});
+        PartyModel.update({_id: req.body._id}, req.body)
+            .then(party => {
+                if(!party) res.json({success: false, result: 'party does not exist'});
 
-                res.json(country);
+                res.json(party);
             })
             .catch(err => {
                 res.json({success: false, result: err})
             })
     },
     retrieve: (req, res) => {
-        CountryModel.find()
+        PartyModel.find()
             .then(result => {
                 if(!result) res.json({success: false, result: 'no results found'});
 
@@ -42,9 +43,9 @@ module.exports = {
             .catch(err => res.json({success: false, result: err}));
     },
     delete: (req, res) => {
-        CountryModel.remove({_id: req.body._id})
+        PartyModel.remove({_id: req.body._id})
             .then( result => {
-                if(!result) res.json({success: false, result: 'country does not exist'});
+                if(!result) res.json({success: false, result: 'party does not exist'});
                 res.json({success: true, result: result});
             })
             .catch(err => res.json({success: false, result: err}));

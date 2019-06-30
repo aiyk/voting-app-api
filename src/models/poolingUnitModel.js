@@ -6,7 +6,8 @@ const poolingUnitSchema = new Schema({
     votes: Array, // array of voters id
     lga_id: {type: Schema.Types.ObjectId, required: true},
     state_id: {type: Schema.Types.ObjectId, required: true},
-    country_id: {type: Schema.Types.ObjectId, required: true}
+    country_id: {type: Schema.Types.ObjectId, required: true},
+    created: { type: Date, default: Date.now}
 });
 
 module.exports = PoolingUnit = mongoose.model('poolingUnits', poolingUnitSchema);

@@ -7,8 +7,14 @@ module.exports = {
             lastname: req.body.lastname,
             othernames: req.body.othernames,
             email: req.body.email,
-            phone: req.body.phone,
-            poolinUnit_id: req.body.poolinUnit_id
+            country_id: req.body.country_id,
+            state_id: req.body.state_id,
+            lga_id: req.body.lga_id,
+            poolingUnit_id: req.body.poolingUnit_id,
+            address: req.body.address,
+            gender: req.body.gender,
+            occupation: req.body.occupation,
+            dateOfBirth: req.body.dateOfBirth
         });
 
         official.save()
