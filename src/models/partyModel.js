@@ -6,7 +6,7 @@ const partySchema = new Schema({
     candidates: [
         {
             election_id: {type: Schema.Types.ObjectId},
-            candidate: String
+            candidate_id: {type: Schema.Types.ObjectId},
         }
     ],
     created: { type: Date, default: Date.now}

@@ -16,7 +16,7 @@ const electionSchema = new Schema({
     votes: [
         {
             voter: {type: Schema.Types.ObjectId}, // array of user ids (string)
-            vote: {type: Schema.Types.ObjectId} // party id
+            party: {type: Schema.Types.ObjectId} // party id
         }
     ],
     created: { type: Date, default: Date.now}
