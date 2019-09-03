@@ -9,11 +9,9 @@ module.exports = {
                 }
 
                 const newElection = new ElectionModel({
-                    electionname: req.body.electionname,
+                    electionName: req.body.electionName,
                     country: req.body.country,
-                    state: req.body.state,
-                    lga: req.body.lga,
-                    poolingUnnit: req.body.poolingUnnit,
+                    votes: req.body.votes,
                 });
 
                 newElection.save()

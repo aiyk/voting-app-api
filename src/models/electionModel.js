@@ -10,13 +10,13 @@ const electionSchema = new Schema({
         maxlength: 255
     },
     country: {type: Schema.Types.ObjectId, required: true},
-    state: {type: Array, required: true}, // array os state ids (string)
-    lga: {type: Array, required: true}, // array os lga ids (string)
-    poolingUnnit: {type: Array, required: true}, // array os lga ids (string)
     votes: [
         {
-            voter: {type: Schema.Types.ObjectId}, // array of user ids (string)
-            party: {type: Schema.Types.ObjectId} // party id
+            voter: {type: Schema.Types.ObjectId}, // user id (string)
+            party: {type: Schema.Types.ObjectId}, // party id voted for
+            state: {type: Array, required: true}, // voters state(string)
+            lga: {type: Array, required: true}, // voters lga (string)
+            poolingUnnit: {type: Array, required: true}, // voters pooling unit (string)
         }
     ],
     created: { type: Date, default: Date.now}
