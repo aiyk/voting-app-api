@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const passport = require('passport');
+const cors = require('cors')
 
 const app = express();
 const db = require('./config/keys').mongoURI;
@@ -13,6 +14,9 @@ mongoose.connect(db, {useNewUrlParser: true})
 
 // passport middleware
 app.use(passport.initialize());
+
+//enable cors for all requests
+app.use(cors());
 
 // passport config
 require('./config/passport')(passport); 

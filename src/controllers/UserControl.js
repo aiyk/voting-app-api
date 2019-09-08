@@ -9,6 +9,7 @@ module.exports = {
         const username = req.body.username;
         const password = req.body.password;
 
+      
         //find user by username
         UserModel.findOne({username})
             .then(user => {
@@ -20,7 +21,7 @@ module.exports = {
                 //check password
                 bcrypt.compare(password, user.password)
                     .then(isMatch => {
-                        if(isMatch){
+                        if(isMatch){ 
                             //user matched, create jwt payload
                             const payload = {
                                 id: user.id,
@@ -36,7 +37,7 @@ module.exports = {
                             jwt.sign(payload, keys.secreteOrKey, {expiresIn: 3600}, (err, token) => {
                                 res.json({
                                     success: true,
-                                    tokem: 'Bearer ' + token
+                                    token: 'Bearer ' + token
                                 })
                             }); 
                         } else {

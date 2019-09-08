@@ -1,7 +1,7 @@
 const CountryModel = require('../models/countryModel');
 
 module.exports = {
-    create: (req, res) => {
+    create: (req, res) => { 
         CountryModel.findOne({countryname: req.body.countryname})
             .then(country => { 
                 if(country){
@@ -22,8 +22,9 @@ module.exports = {
             })
     },
     update: (req, res) => {
-        CountryModel.update({_id: req.body._id}, req.body)
-            .then(country => {
+        const id = req.params.id; 
+        CountryModel.updateOne({_id: id}, req.body)
+            .then(country => { 
                 if(!country) res.json({success: false, result: 'country does not exist'});
 
                 res.json(country);
@@ -31,6 +32,18 @@ module.exports = {
             .catch(err => {
                 res.json({success: false, result: err})
             })
+    },
+    retrieveOne: (req, res) => {
+        if(req.params.id){
+            const id = req.params.id; 
+            CountryModel.findOne({_id: id})
+                .then(result => {
+                    if(!result) res.json({success: false, result: 'country does not exist'});
+    
+                    res.json({success: true, result: result});
+                })
+                .catch(err => res.json({success: false, result: err}));
+        }
     },
     retrieve: (req, res) => {
         CountryModel.find()
@@ -41,8 +54,9 @@ module.exports = {
             })
             .catch(err => res.json({success: false, result: err}));
     },
-    delete: (req, res) => {
-        CountryModel.remove({_id: req.body._id})
+    delete: (req, res) => { 
+        const id = req.params.id; 
+        CountryModel.deleteOne({_id: id})
             .then( result => {
                 if(!result) res.json({success: false, result: 'country does not exist'});
                 res.json({success: true, result: result});
