@@ -23,7 +23,8 @@ module.exports = {
         })
     },
     update: (req, res) => {
-        StateModel.update({_id: req.body._id}, req.body)
+        const id = req.params.id; 
+        StateModel.updateOne({_id: id}, req.body)
             .then(state => {
                 if(!state) res.json({success: false, result: 'state does not exist'});
 
@@ -33,7 +34,7 @@ module.exports = {
                 res.json({success: false, result: err})
             })
     },
-    retrieve: (req, res) => {
+    retrieve: (req, res) => { 
         StateModel.find()
             .then(result => {
                 if(!result) res.json({success: false, result: 'no results found'});
@@ -42,8 +43,21 @@ module.exports = {
             })
             .catch(err => res.json({success: false, result: err}));
     },
+    retrieveOne: (req, res) => {
+        if(req.params.id){
+            const id = req.params.id; 
+            StateModel.findOne({_id: id})
+                .then(result => {
+                    if(!result) res.json({success: false, result: 'state does not exist'});
+    
+                    res.json({success: true, result: result});
+                })
+                .catch(err => res.json({success: false, result: err}));
+        }
+    },
     delete: (req, res) => {
-        StateModel.remove({_id: req.body._id})
+        const id = req.params.id; 
+        StateModel.deleteOne({_id: id})
             .then( result => {
                 if(!result) res.json({success: false, result: 'state does not exist'});
                 res.json({success: true, result: result});

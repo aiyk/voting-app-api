@@ -24,7 +24,8 @@ module.exports = {
         })
     },
     update: (req, res) => {
-        LgaModel.update({_id: req.body._id}, req.body)
+        const id = req.params.id; 
+        LgaModel.updateOne({_id: id}, req.body)
             .then(lga => {
                 if(!lga) res.json({success: false, result: 'lga does not exist'});
 
@@ -34,7 +35,19 @@ module.exports = {
                 res.json({success: false, result: err})
             })
     },
-    retrieve: (req, res) => {
+    retrieveOne: (req, res) => {
+        if(req.params.id){
+            const id = req.params.id; 
+            LgaModel.findOne({_id: id})
+                .then(result => {
+                    if(!result) res.json({success: false, result: 'lga does not exist'});
+    
+                    res.json({success: true, result: result});
+                })
+                .catch(err => res.json({success: false, result: err}));
+        }
+    },
+    retrieve: (req, res) => { 
         LgaModel.find()
             .then(result => {
                 if(!result) res.json({success: false, result: 'no results found'});
@@ -44,7 +57,8 @@ module.exports = {
             .catch(err => res.json({success: false, result: err}));
     },
     delete: (req, res) => {
-        LgaModel.remove({_id: req.body._id})
+        const id = req.params.id; 
+        LgaModel.deleteOne({_id: id})
             .then( result => {
                 if(!result) res.json({success: false, result: 'lga does not exist'});
                 res.json({success: true, result: result});
