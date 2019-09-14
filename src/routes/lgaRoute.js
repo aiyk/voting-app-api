@@ -6,8 +6,9 @@ const passport = require('passport');
 const LgaControl = require('../controllers/LgaControl');
 
 router.post('/api/lga/create', passport.authenticate('jwt', {session: false}), LgaControl.create);
-router.post('/api/lga/update', passport.authenticate('jwt', {session: false}), LgaControl.update);
-router.get('/api/lga/retrieve', LgaControl.retrieve);
-router.delete('/api/lga/delete', passport.authenticate('jwt', {session: false}), LgaControl.delete);
+router.put('/api/lga/update/:id', passport.authenticate('jwt', {session: false}), LgaControl.update);
+router.get('/api/lga/retrieve', passport.authenticate('jwt', {session: false}), LgaControl.retrieve);
+router.get('/api/lga/retrieve/:id', passport.authenticate('jwt', {session: false}), LgaControl.retrieveOne);
+router.delete('/api/lga/delete/:id', passport.authenticate('jwt', {session: false}), LgaControl.delete);
 
-module.exports = router;
+module.exports = router; 

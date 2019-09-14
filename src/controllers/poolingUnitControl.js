@@ -24,7 +24,8 @@ module.exports = {
         })  
     },
     update: (req, res) => {
-        PoolingUnitModel.update({_id: req.body._id}, req.body)
+        const id = req.params.id; 
+        PoolingUnitModel.updateOne({_id: id}, req.body)
             .then(poolingUnit => {
                 if(!poolingUnit) res.json({success: false, result: 'poolingUnit does not exist'});
 
@@ -43,10 +44,23 @@ module.exports = {
             })
             .catch(err => res.json({success: false, result: err}));
     },
+    retrieveOne: (req, res) => {
+        if(req.params.id){
+            const id = req.params.id; 
+            PoolingUnitModel.findOne({_id: id})
+                .then(result => {
+                    if(!result) res.json({success: false, result: 'pooling unit does not exist'});
+    
+                    res.json({success: true, result: result});
+                })
+                .catch(err => res.json({success: false, result: err}));
+        }
+    },
     delete: (req, res) => {
-        PoolingUnitModel.remove({_id: req.body._id})
+        const id = req.params.id; 
+        PoolingUnitModel.deleteOne({_id: id})
             .then( result => {
-                if(!result) res.json({success: false, result: 'poolingUnit does not exist'});
+                if(!result) res.json({success: false, result: 'pooling unit does not exist'});
                 res.json({success: true, result: result});
             })
             .catch(err => res.json({success: false, result: err}));
