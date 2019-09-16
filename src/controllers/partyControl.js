@@ -23,7 +23,8 @@ module.exports = {
             })
     },
     update: (req, res) => {
-        PartyModel.update({_id: req.body._id}, req.body)
+        const id = req.params.id; 
+        PartyModel.updateOne({_id: id}, req.body)
             .then(party => {
                 if(!party) res.json({success: false, result: 'party does not exist'});
 
@@ -32,6 +33,28 @@ module.exports = {
             .catch(err => {
                 res.json({success: false, result: err})
             })
+    },
+    updateCandidate: (req, res) => {
+        const id = req.params.id; 
+
+        PartyModel.findOne({_id: id})
+            .then(result => {
+                if(!result) res.json({success: false, result: 'party does not exist'});
+
+                result.candidates.push(req.body); 
+
+                PartyModel.updateOne({_id: id}, result)
+                    .then(party => {
+                        if(!party) res.json({success: false, result: 'party does not exist'});
+
+                        res.json(party);
+                    })
+                    .catch(err => {
+                        res.json({success: false, result: err})
+                    })
+            })
+            .catch(err => res.json({success: false, result: err}));
+        
     },
     retrieve: (req, res) => {
         PartyModel.find()
@@ -42,8 +65,21 @@ module.exports = {
             })
             .catch(err => res.json({success: false, result: err}));
     },
+    retrieveOne: (req, res) => {
+        if(req.params.id){
+            const id = req.params.id; 
+            PartyModel.findOne({_id: id})
+                .then(result => {
+                    if(!result) res.json({success: false, result: 'party does not exist'});
+    
+                    res.json({success: true, result: result});
+                })
+                .catch(err => res.json({success: false, result: err}));
+        }
+    },
     delete: (req, res) => {
-        PartyModel.remove({_id: req.body._id})
+        const id = req.params.id; 
+        PartyModel.deleteOne({_id: id})
             .then( result => {
                 if(!result) res.json({success: false, result: 'party does not exist'});
                 res.json({success: true, result: result});

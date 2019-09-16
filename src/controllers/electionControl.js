@@ -1,7 +1,7 @@
 const ElectionModel = require('../models/ElectionModel');
 
 module.exports = {
-    create: (req, res) => {
+    create: (req, res) => { console.log('in here', req.body);
         ElectionModel.findOne({electionname: req.body.electionname})
             .then(election => { 
                 if(election){
@@ -9,9 +9,9 @@ module.exports = {
                 }
 
                 const newElection = new ElectionModel({
-                    electionName: req.body.electionName,
-                    country: req.body.country,
-                    votes: req.body.votes,
+                    electionname: req.body.electionname,
+                    country_id: req.body.country_id,
+                    votes: [],
                 });
 
                 newElection.save()
@@ -24,7 +24,8 @@ module.exports = {
             })
     },
     update: (req, res) => {
-        ElectionModel.update({_id: req.body._id}, req.body)
+        const id = req.params.id; 
+        ElectionModel.updateOne({_id: id}, req.body)
             .then(election => {
                 if(!election) res.json({success: false, result: 'election does not exist'});
 
@@ -43,12 +44,25 @@ module.exports = {
             })
             .catch(err => res.json({success: false, result: err}));
     },
+    retrieveOne: (req, res) => {
+        if(req.params.id){
+            const id = req.params.id; 
+            ElectionModel.findOne({_id: id})
+                .then(result => {
+                    if(!result) res.json({success: false, result: 'election does not exist'});
+    
+                    res.json({success: true, result: result});
+                })
+                .catch(err => res.json({success: false, result: err}));
+        }
+    },
     delete: (req, res) => {
-        ElectionModel.remove({_id: req.body._id})
+        const id = req.params.id; 
+        ElectionModel.deleteOne({_id: id})
             .then( result => {
                 if(!result) res.json({success: false, result: 'election does not exist'});
                 res.json({success: true, result: result});
-            })
+            }) 
             .catch(err => res.json({success: false, result: err}));
     }
 }

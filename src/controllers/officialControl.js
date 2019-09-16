@@ -71,7 +71,8 @@ module.exports = {
             }); 
     },
     update: (req, res) => {
-        OfficialModel.update({_id: req.body._id}, req.body)
+        const id = req.params.id; 
+        OfficialModel.updateOne({_id: id}, req.body)
             .then(official => {
                 if(!official) res.json({success: false, result: 'official does not exist'});
 
@@ -90,8 +91,21 @@ module.exports = {
             })
             .catch(err => res.json({success: false, result: err}));
     },
+    retrieveOne: (req, res) => {
+        if(req.params.id){
+            const id = req.params.id; 
+            OfficialModel.findOne({_id: id})
+                .then(result => {
+                    if(!result) res.json({success: false, result: 'party does not exist'});
+    
+                    res.json({success: true, result: result});
+                })
+                .catch(err => res.json({success: false, result: err}));
+        }
+    },
     delete: (req, res) => {
-        OfficialModel.remove({_id: req.body._id})
+        const id = req.params.id; 
+        OfficialModel.deleteOne({_id: id})
             .then( result => {
                 if(!result) res.json({success: false, result: 'official does not exist'});
                 res.json({success: true, result: result});

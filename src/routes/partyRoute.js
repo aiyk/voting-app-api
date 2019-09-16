@@ -6,8 +6,10 @@ const passport = require('passport');
 const PartyControl = require('../controllers/PartyControl');
 
 router.post('/api/party/create', passport.authenticate('jwt', {session: false}), PartyControl.create);
-router.post('/api/party/update', passport.authenticate('jwt', {session: false}), PartyControl.update);
-router.get('/api/party/retrieve', PartyControl.retrieve);
-router.delete('/api/party/delete', passport.authenticate('jwt', {session: false}), PartyControl.delete);
+router.put('/api/party/update/:id', passport.authenticate('jwt', {session: false}), PartyControl.update);
+router.put('/api/party/update-candidate/:id', passport.authenticate('jwt', {session: false}), PartyControl.updateCandidate);
+router.get('/api/party/retrieve', passport.authenticate('jwt', {session: false}), PartyControl.retrieve);
+router.get('/api/party/retrieve/:id', passport.authenticate('jwt', {session: false}), PartyControl.retrieve);
+router.delete('/api/party/delete/:id', passport.authenticate('jwt', {session: false}), PartyControl.delete);
 
 module.exports = router;

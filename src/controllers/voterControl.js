@@ -30,7 +30,7 @@ module.exports = {
                     username: username,
                     password: password,
                     email: req.body.email,
-                    access: 'voter', // [admin, voter, voter]
+                    access: 'voter', // [admin, voter, official]
                 });
 
                 bcrypt.genSalt(10, (err, salt) => {
@@ -77,7 +77,8 @@ module.exports = {
             }); 
     },
     update: (req, res) => {
-        VoterModel.update({_id: req.body._id}, req.body)
+        const id = req.params.id; 
+        VoterModel.updateOne({_id: id}, req.body)
             .then(voter => {
                 if(!voter) res.json({success: false, result: 'voter does not exist'});
 
@@ -96,8 +97,21 @@ module.exports = {
             })
             .catch(err => res.json({success: false, result: err}));
     },
+    retrieveOne: (req, res) => {
+        if(req.params.id){
+            const id = req.params.id; 
+            VoterModel.findOne({_id: id})
+                .then(result => {
+                    if(!result) res.json({success: false, result: 'party does not exist'});
+    
+                    res.json({success: true, result: result});
+                })
+                .catch(err => res.json({success: false, result: err}));
+        }
+    },
     delete: (req, res) => {
-        VoterModel.remove({_id: req.body._id})
+        const id = req.params.id; 
+        VoterModel.deleteOne({_id: id})
             .then( result => {
                 if(!result) res.json({success: false, result: 'voter does not exist'});
                 res.json({success: true, result: result});

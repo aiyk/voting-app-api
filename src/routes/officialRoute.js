@@ -6,8 +6,9 @@ const passport = require('passport');
 const OfficialControl = require('../controllers/OfficialControl');
 
 router.post('/api/official/create', passport.authenticate('jwt', {session: false}), OfficialControl.create);
-router.post('/api/official/update', OfficialControl.update);
-router.get('/api/official/retrieve', OfficialControl.retrieve);
-router.delete('/api/official/delete', OfficialControl.delete);
+router.put('/api/official/update/:id', passport.authenticate('jwt', {session: false}), OfficialControl.update);
+router.get('/api/official/retrieve', passport.authenticate('jwt', {session: false}), OfficialControl.retrieve);
+router.get('/api/official/retrieve/:id', passport.authenticate('jwt', {session: false}), OfficialControl.retrieveOne);
+router.delete('/api/official/delete/:id', passport.authenticate('jwt', {session: false}), OfficialControl.delete);
 
 module.exports = router;
