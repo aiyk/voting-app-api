@@ -18,7 +18,8 @@ module.exports = {
 
         // create user
         let username =  generateString(5);
-        let password =  generateString(5);
+        // let password =  generateString(5);
+        let password = 'password';
 
         UserModel.findOne({username: username})
             .then(user => { 
