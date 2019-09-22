@@ -1,5 +1,5 @@
 const UserModel = require('../models/userModel');
-const ElectionModel = require('../models/electionModel');
+// const ElectionModel = require('../models/electionModel');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const keys = require('../../config/keys');
@@ -32,11 +32,11 @@ module.exports = {
 
                            ElectionModel.findOne({_id: election_id})
                                .then(election => { 
-                                   if(election){ console.log('req body', req.body);
+                                   if(election){ console.log(election);
        
                                     userVote = req.body.vote;
                                     userVote.voter = voter_id;
-                                    election.votes.push(userVote);
+                                    election.votes.push(userVote); console.log(election);
                                     
                                     ElectionModel.updateOne({_id: election_id}, election)
                                         .then(election => {

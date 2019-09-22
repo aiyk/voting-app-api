@@ -17,9 +17,10 @@ const electionSchema = new Schema({
         {
             voter: {type: Schema.Types.ObjectId}, // user id (string)
             party: {type: Schema.Types.ObjectId}, // party id voted for
-            state: {type: Array, required: true}, // voters state(string)
-            lga: {type: Array, required: true}, // voters lga (string)
-            poolingUnnit: {type: Array, required: true}, // voters pooling unit (string)
+            partyname: {type: String}, // party id voted for
+            state: {type: Schema.Types.ObjectId}, // voters state(string)
+            lga: {type: Schema.Types.ObjectId}, // voters lga (string)
+            poolingUnnit: {type: Schema.Types.ObjectId}, // voters pooling unit (string)
         }
     ],
     created: { type: Date, default: Date.now}

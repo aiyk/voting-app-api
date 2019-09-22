@@ -40,7 +40,7 @@ const LgaRoute = require('./src/routes/lgaRoute');
 const PoolingUnitRoute = require('./src/routes/poolingUnitRoute');
 const ElectionRoute = require('./src/routes/electionRoute');
 const PartyRoute = require('./src/routes/partyRoute');
-const VoteRoute = require('./src/routes/voteRoute');
+// const VoteRoute = require('./src/routes/voteRoute');
 
 app.use(UserRoute);
 app.use(OfficialRoute);
@@ -49,7 +49,7 @@ app.use(CountryRoute);
 app.use(StateRoute);
 app.use(LgaRoute);
 app.use(PoolingUnitRoute);
-app.use(VoteRoute);
+// app.use(VoteRoute);
 app.use(ElectionRoute);
 app.use(PartyRoute);
 
