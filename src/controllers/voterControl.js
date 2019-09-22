@@ -50,6 +50,7 @@ module.exports = {
                                     country_id: req.body.country_id,
                                     state_id: req.body.state_id,
                                     lga_id: req.body.lga_id,
+                                    fingerprint: req.body.fingerprint,
                                     poolingUnit_id: req.body.poolingUnit_id,
                                     address: req.body.address,
                                     gender: req.body.gender,
