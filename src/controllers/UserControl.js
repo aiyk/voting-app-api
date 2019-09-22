@@ -4,12 +4,32 @@ const jwt = require('jsonwebtoken');
 const keys = require('../../config/keys');
 
 module.exports = {
-    
+    create: (req, res) => {
+        let user =new UserModel({
+            username: req.body.username,
+            password: req.body.password,
+            email: req.body.email,
+            access: req.body.access
+        });
+
+        bcrypt.genSalt(10, (err, salt) => {
+            bcrypt.hash(user.password, salt, (err, hash) => {
+                if(err) throw err;
+                user.password = hash;
+                user.save()
+                .then(result =>{
+                    res.json({success: true, result: result});
+                })
+                .catch(err => {
+                    res.json({success: false, result: err});
+                })
+            });
+        })
+    },
     login: (req, res) => {
         const username = req.body.username;
         const password = req.body.password;
 
-      
         //find user by username
         UserModel.findOne({username})
             .then(user => {

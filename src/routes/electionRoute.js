@@ -11,4 +11,8 @@ router.get('/api/election/retrieve', passport.authenticate('jwt', {session: fals
 router.get('/api/election/retrieve/:id', passport.authenticate('jwt', {session: false}), ElectionControl.retrieveOne);
 router.delete('/api/election/delete/:id', passport.authenticate('jwt', {session: false}), ElectionControl.delete);
 
+router.put('/api/election/voteWithId', passport.authenticate('jwt', {session: false}), ElectionControl.voteWithId);
+router.get('/api/election/getResults', passport.authenticate('jwt', {session: false}), ElectionControl.getResults);
+router.get('/api/election/getResult/:id', passport.authenticate('jwt', {session: false}), ElectionControl.getResult);
+
 module.exports = router;

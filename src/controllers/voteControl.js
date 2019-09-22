@@ -1,5 +1,5 @@
 const UserModel = require('../models/userModel');
-const ElectionModel = require('../models/electionModel');
+// const ElectionModel = require('../models/electionModel');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const keys = require('../../config/keys');
