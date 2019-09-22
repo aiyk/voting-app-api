@@ -1,6 +1,5 @@
-const ElectionModel = require('../models/electionModel');
-const VoterModel = require('../models/voterModel');
 const UserModel = require('../models/userModel');
+const ElectionModel = require('../models/electionModel');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const keys = require('../../config/keys');
@@ -11,7 +10,7 @@ const keys = require('../../config/keys');
 // alternatively, supply user credentioals to vote
 
 module.exports = {
-    voteWithId: (req, res) => {
+    voteWithId: (req, res) => { 
         const election_id = req.body.election_id; 
         const username = req.body.username;
         const password = req.body.password;
@@ -27,19 +26,19 @@ module.exports = {
 
                 //check password
                 bcrypt.compare(password, user.password)
-                    .then(isMatch => {
+                    .then(isMatch => { 
                         if(isMatch){ 
-                           const voter_id = user.id; // the user id to uniquely identify who voted
+                           const voter_id = user._id; // the user id to uniquely identify who voted
 
                            ElectionModel.findOne({_id: election_id})
                                .then(election => { 
-                                   if(election){
+                                   if(election){ console.log('req body', req.body);
        
-                                    userVote =req.body.vote;
+                                    userVote = req.body.vote;
                                     userVote.voter = voter_id;
                                     election.votes.push(userVote);
                                     
-                                    ElectionModel.updateOne({_id: id}, election)
+                                    ElectionModel.updateOne({_id: election_id}, election)
                                         .then(election => {
                                             if(!election) res.json({success: false, result: 'election does not exist'});
                     
