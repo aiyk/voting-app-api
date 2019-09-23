@@ -10,7 +10,7 @@ const keys = require('../../config/keys');
 // alternatively, supply user credentioals to vote
 
 module.exports = {
-    voteWithId: (req, res) => { 
+    voteWithId: (req, res) => { console.log('how u like ne now!!!');
         const election_id = req.body.election_id; 
         const username = req.body.username;
         const password = req.body.password;
