@@ -1,5 +1,6 @@
 const ElectionModel = require('../models/ElectionModel');
 const UserModel = require('../models/userModel');
+const VoterModel = require('../models/voterModel');
 const bcrypt = require('bcryptjs');
 
 module.exports = {
@@ -112,6 +113,28 @@ module.exports = {
                         }
                     })
             }); 
+    },
+    voteWithFingerprint: (req, res) => { 
+        const election_id = req.body.election_id; 
+
+        ElectionModel.findOne({_id: election_id})
+            .then(election => { 
+                if(election){
+
+                userVote = req.body.vote;
+                userVote.voter = req.body.voter;
+                election.votes.push(userVote);
+                ElectionModel.updateOne({_id: election_id}, election)
+                    .then(election => {
+                        if(!election) res.json({success: false, result: 'election does not exist'});
+
+                        res.json(election);
+                    })
+                    .catch(err => {
+                        res.json({success: false, result: err})
+                    })
+                }
+            });
     },
     getResults: (req, res) => {
         ElectionModel.find()
