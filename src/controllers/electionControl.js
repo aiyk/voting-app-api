@@ -84,34 +84,38 @@ module.exports = {
                     return res.status(404).json({user: 'user not found'});
                 }
 
-                //check password
-                bcrypt.compare(password, user.password)
-                    .then(isMatch => { 
-                        if(isMatch){ 
-                           const voter_id = user._id; // the user id to uniquely identify who voted
-
-                           ElectionModel.findOne({_id: election_id})
-                               .then(election => { 
-                                   if(election){
-       
-                                    userVote = req.body.vote;
-                                    userVote.voter = voter_id;
-                                    election.votes.push(userVote);
-                                    ElectionModel.updateOne({_id: election_id}, election)
-                                        .then(election => {
-                                            if(!election) res.json({success: false, result: 'election does not exist'});
-                    
-                                            res.json(election);
-                                        })
-                                        .catch(err => {
-                                            res.json({success: false, result: err})
-                                        })
-                                   }
-                               });
-                        } else {
-                            return res.status(400).json({password: 'password incorrect'});
-                        }
-                    })
+                if(user.access){
+                    //check password
+                    bcrypt.compare(password, user.password)
+                        .then(isMatch => { 
+                            if(isMatch){ 
+                               const voter_id = user._id; // the user id to uniquely identify who voted
+    
+                               ElectionModel.findOne({_id: election_id})
+                                   .then(election => { 
+                                       if(election){
+           
+                                        userVote = req.body.vote;
+                                        userVote.voter = voter_id;
+                                        election.votes.push(userVote);
+                                        ElectionModel.updateOne({_id: election_id}, election)
+                                            .then(election => {
+                                                if(!election) res.json({success: false, result: 'election does not exist'});
+                        
+                                                res.json(election);
+                                            })
+                                            .catch(err => {
+                                                res.json({success: false, result: err})
+                                            })
+                                       }
+                                   });
+                            } else {
+                                return res.status(400).json({password: 'password incorrect'});
+                            }
+                        })
+                } else {
+                    return res.status(400).json({password: 'User is not a registered voter'});
+                }
             }); 
     },
     voteWithFingerprint: (req, res) => { 
