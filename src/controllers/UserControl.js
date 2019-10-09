@@ -57,6 +57,7 @@ module.exports = {
                             jwt.sign(payload, keys.secreteOrKey, {expiresIn: 3600}, (err, token) => {
                                 res.json({
                                     success: true,
+                                    role: user.access,
                                     token: 'Bearer ' + token
                                 })
                             }); 

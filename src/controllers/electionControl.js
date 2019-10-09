@@ -131,7 +131,6 @@ module.exports = {
                 ElectionModel.updateOne({_id: election_id}, election)
                     .then(election => {
                         if(!election) res.json({success: false, result: 'election does not exist'});
-
                         res.json(election);
                     })
                     .catch(err => {
