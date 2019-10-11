@@ -94,25 +94,39 @@ module.exports = {
                                ElectionModel.findOne({_id: election_id})
                                    .then(election => { 
                                        if(election){
-           
-                                        userVote = req.body.vote;
-                                        userVote.voter = voter_id;
-                                        election.votes.push(userVote);
-                                        ElectionModel.updateOne({_id: election_id}, election)
-                                            .then(election => {
-                                                if(!election) res.json({success: false, result: 'election does not exist'});
-                        
-                                                res.json(election);
-                                            })
-                                            .catch(err => {
-                                                res.json({success: false, result: err})
-                                            })
+                                        let hasVoted = false;
+                                        election.votes.forEach( vote => {
+                                            if(String(vote.voter) === String(voter_id)){ 
+                                                // return res.status(400).json({password: 'User has already voted'});
+                                                hasVoted = true
+                                            }
+                                        });
+                                        console.log('atta boi');
+
+                                        if(!hasVoted){
+                                            userVote = req.body.vote;
+                                            userVote.voter = voter_id;
+                                            election.votes.push(userVote); 
+    
+                                            ElectionModel.updateOne({_id: election_id}, election)
+                                                .then(election => {
+                                                    if(!election) res.json({success: false, result: 'election does not exist'});
+                            
+                                                    res.json(election);
+                                                })
+                                                .catch(err => {
+                                                    res.json({success: false, result: err})
+                                                })
+                                        } else {
+                                            return res.status(400).json({password: 'User has already voted'});
+                                        }
                                        }
                                    });
                             } else {
                                 return res.status(400).json({password: 'password incorrect'});
                             }
                         })
+                        .catch(err => res.json({success: false, result: 'invalid vote'}));
                 } else {
                     return res.status(400).json({password: 'User is not a registered voter'});
                 }

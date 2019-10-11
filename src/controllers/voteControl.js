@@ -10,7 +10,7 @@ const keys = require('../../config/keys');
 // alternatively, supply user credentioals to vote
 
 module.exports = {
-    voteWithId: (req, res) => { console.log('how u like ne now!!!');
+    voteWithId: (req, res) => { 
         const election_id = req.body.election_id; 
         const username = req.body.username;
         const password = req.body.password;
@@ -32,17 +32,17 @@ module.exports = {
 
                            ElectionModel.findOne({_id: election_id})
                                .then(election => { 
-                                   if(election){ console.log(election);
+                                   if(election){
        
                                     userVote = req.body.vote;
-                                    userVote.voter = voter_id;
-                                    election.votes.push(userVote); console.log(election);
+                                    userVote.voter = voter_id; 
+                                    election.votes.push(userVote); 
                                     
                                     ElectionModel.updateOne({_id: election_id}, election)
                                         .then(election => {
                                             if(!election) res.json({success: false, result: 'election does not exist'});
                     
-                                            res.jason(election);
+                                            res.json(election);
                                         })
                                         .catch(err => {
                                             res.json({success: false, result: err})
