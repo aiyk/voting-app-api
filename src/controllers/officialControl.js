@@ -52,7 +52,7 @@ module.exports = {
                         
                                 newOfficial.save()
                                     .then( result => {
-                                        res.json({ result});
+                                        res.json({ newUser});
                                     })
                                     .catch(err => {
                                         res.json({success: false, result: err});

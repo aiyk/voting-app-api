@@ -101,7 +101,6 @@ module.exports = {
                                                 hasVoted = true
                                             }
                                         });
-                                        console.log('atta boi');
 
                                         if(!hasVoted){
                                             userVote = req.body.vote;
